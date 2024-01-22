@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "protobuf",
+    "cppzmq"
+  ],
+  "overrides": [
+    {
+      "name": "protobuf",
+      "version": "3.21.12"
+    },
+    {
+      "name": "cppzmq",
+      "version": "4.10.0"
+    }
+  ],
+  "builtin-baseline": "cb1e4728779e35c4bb60c25114a59c93b3e9be9a"
+}

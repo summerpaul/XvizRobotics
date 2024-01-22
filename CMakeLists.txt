@@ -23,8 +23,11 @@ endif()
 include_directories(app)
 
 include_directories(xvizMsgBridge/include)
-
+if(APPLE)
 link_directories(xvizMsgBridge/lib/arm64-osx)
+elseif(WIN32)
+link_directories(xvizMsgBridge/lib/x64-windows)
+endif()
 
 add_subdirectory(demo)
 add_subdirectory(app)

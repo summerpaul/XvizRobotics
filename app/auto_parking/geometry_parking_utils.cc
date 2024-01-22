@@ -2,6 +2,7 @@
 
 #include "apollo_math/math_utils.h"
 
+#include "xviz_marcro.h"
 Pose GetPoseAlongArc(const Pose &start, double kappa, double length, char type)
 {
     const double R = 1.0 / kappa;
@@ -28,7 +29,7 @@ std::vector<Pose> ConvertPathToDiscretePoses(const LineCirclePath &path, double 
         {
             for (double s = step; s < std::abs(path.lengths[i]) + step; s += step)
             {
-                s = std::min(s, std::abs(path.lengths[i]));
+                s = XVIZ_MIN(s, std::abs(path.lengths[i]));
                 const auto pos = cur_start.pos + std::copysign(s, path.lengths[i]) * cur_start.dir;
                 res.push_back({pos, cur_start.theta, cur_start.dir});
             }
@@ -39,7 +40,7 @@ std::vector<Pose> ConvertPathToDiscretePoses(const LineCirclePath &path, double 
         {
             for (double s = step; s < std::abs(path.lengths[i]) + step; s += step)
             {
-                s = std::min(s, std::abs(path.lengths[i]));
+                s = XVIZ_MIN(s, std::abs(path.lengths[i]));
                 res.push_back(GetPoseAlongArc(cur_start, path.kappas[i], std::copysign(s, path.lengths[i]), path.types[i]));
             }
             break;

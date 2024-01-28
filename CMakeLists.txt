@@ -24,6 +24,9 @@ include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
 find_package(protobuf CONFIG REQUIRED)
 find_package(cppzmq CONFIG REQUIRED)
+find_package(Eigen3 CONFIG REQUIRED)
+
+include_directories(${EIGEN3_INCLUDE_DIRS})
 
 include_directories(app)
 

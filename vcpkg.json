@@ -1,7 +1,9 @@
 {
   "dependencies": [
     "protobuf",
-    "cppzmq"
+    "cppzmq",
+    "eigen3",
+    "rapidcsv"
   ],
   "overrides": [
     {
@@ -11,6 +13,14 @@
     {
       "name": "cppzmq",
       "version": "4.10.0"
+    },
+    {
+      "name":"eigen3",
+      "version":"3.4.0#3"
+    },
+    {
+      "name":"rapidcsv",
+      "version":"8.64"
     }
   ],
   "builtin-baseline": "cb1e4728779e35c4bb60c25114a59c93b3e9be9a"

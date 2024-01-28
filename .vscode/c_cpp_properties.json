@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",        
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/vcpkg_installed/arm64-osx/include",
+                "${workspaceFolder}/app/common",
+                "${workspaceFolder}/xvizMsgBridge/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",  //编译器路径
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-20 20:51:42
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-30 19:20:06
+ * @Last Modified time: 2024-01-30 21:31:30
  */
 #include "auto_parking/geometry_parking_utils.h"
 #include "auto_parking/reverse_verticle_parking.h"
@@ -42,6 +42,8 @@ public:
     m_tf.m_frameId = BASE_LINK;
     m_tf.m_parentFrameId = xviz::WORLD_FRAME_ID;
     m_vehicle.header.frameId = BASE_LINK;
+
+    Logger::GetInstance()->Init("AutoParkingDemo", "AutoParkingDemo");
 
     GenBoundaries();
     GenVehicleBox();
@@ -105,11 +107,13 @@ public:
   {
 
     m_planPath.points.clear();
-
+    m_tic.Tic();
     const bool success =
         RunReverseVerticleParking(m_boundaries, m_start, &m_result);
     if (success)
     {
+      double total_time = m_tic.Toc();
+      LOG_INFO("total_time = {} ", total_time);
       const auto path = ConvertPathToDiscretePoses(m_result, 0.05);
       m_resultPath = path;
       for (const auto &pose : path)

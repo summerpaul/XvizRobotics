@@ -2,7 +2,7 @@
  * @Author: Yunkai Xia
  * @Date:   2023-08-24 13:12:53
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2023-09-05 22:11:23
+ * @Last Modified time: 2024-01-30 21:31:45
  */
 #include <stdint.h>
 
@@ -19,8 +19,9 @@
 #include <iostream>
 #include <memory>
 #include <string>
-namespace minco_local_planner::basis {
-static inline int NowDateToInt() {
+
+static inline int NowDateToInt()
+{
   time_t now;
   time(&now);
 
@@ -30,12 +31,13 @@ static inline int NowDateToInt() {
   localtime_s(&p, &now);
 #else
   localtime_r(&now, &p);
-#endif  // _WIN32
+#endif // _WIN32
   int now_date = (1900 + p.tm_year) * 10000 + (p.tm_mon + 1) * 100 + p.tm_mday;
   return now_date;
 }
 
-static inline int NowTimeToInt() {
+static inline int NowTimeToInt()
+{
   time_t now;
   time(&now);
   // choose thread save version in each platform
@@ -44,17 +46,24 @@ static inline int NowTimeToInt() {
   localtime_s(&p, &now);
 #else
   localtime_r(&now, &p);
-#endif  // _WIN32
+#endif // _WIN32
 
   int now_int = p.tm_hour * 10000 + p.tm_min * 100 + p.tm_sec;
   return now_int;
 }
 
-enum class LoggerType { CONSOLE_ONLY = 0, FILE_ONLY = 1, SPLITTER = 2 };
+enum class LoggerType
+{
+  CONSOLE_ONLY = 0,
+  FILE_ONLY = 1,
+  SPLITTER = 2
+};
 
-class Logger {
- public:
-  static Logger *GetInstance() {
+class Logger
+{
+public:
+  static Logger *GetInstance()
+  {
     static Logger logger;
     return &logger;
   }
@@ -63,16 +72,19 @@ class Logger {
 
   bool GetInitFlag() { return b_init_; }
 
-  bool Init(const std::string &log_dir, const std::string &logger_name_prefix,
-            const int &log_level = 0, const int &log_type = 0) {
-    if (b_init_) {
+  bool Init(const std::string &log_dir, const std::string &logger_name_prefix, const int &log_type = 0,
+            const int &log_level = 0)
+  {
+    if (b_init_)
+    {
       return true;
     }
 
     const auto spd_log_level = spdlog::level::level_enum(log_level);
     const std::string pattern = "%Y-%m-%d %H:%M:%S.%e [%l] [%s %#] %v";
 
-    try {
+    try
+    {
       int date = NowDateToInt();
       int time = NowTimeToInt();
       const std::string logger_name = logger_name_prefix +
@@ -86,7 +98,9 @@ class Logger {
       spdlog::register_logger(logger_ptr_);
       spdlog::set_default_logger(spdlog::get(logger_name));
       b_init_ = true;
-    } catch (const spdlog::spdlog_ex &ex) {
+    }
+    catch (const spdlog::spdlog_ex &ex)
+    {
       b_init_ = false;
       std::cout << "Log initialization failed: " << ex.what() << std::endl;
     }
@@ -94,23 +108,29 @@ class Logger {
     return b_init_;
   }
 
- private:
+private:
   void CreateLogger(const LoggerType &log_type, const std::string &name,
-                    const std::string &path) {
+                    const std::string &path)
+  {
     std::vector<spdlog::sink_ptr> sinks;
 
-    if (log_type == LoggerType::CONSOLE_ONLY) {
+    if (log_type == LoggerType::CONSOLE_ONLY)
+    {
       auto console_sink =
           std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
       sinks.push_back(console_sink);
 
       std::cout << "log use console only " << std::endl;
-    } else if (log_type == LoggerType::FILE_ONLY) {
+    }
+    else if (log_type == LoggerType::FILE_ONLY)
+    {
       auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
           path.c_str(), true);
       std::cout << "log use file only " << std::endl;
       sinks.push_back(file_sink);
-    } else {
+    }
+    else
+    {
       auto console_sink =
           std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
       auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
@@ -124,13 +144,13 @@ class Logger {
         std::make_shared<spdlog::logger>(name, begin(sinks), end(sinks));
   }
 
- private:
+private:
   Logger() = default;
   ~Logger() { spdlog::drop_all(); }
   Logger(const Logger &) = delete;
   Logger &operator=(const Logger &) = delete;
 
- private:
+private:
   std::shared_ptr<spdlog::logger> logger_ptr_;
   bool b_init_ = false;
 };
@@ -154,6 +174,5 @@ class Logger {
 #define LOG_ERROR(...)                                         \
   SPDLOG_LOGGER_CALL(Logger::GetInstance()->GetLogger().get(), \
                      spdlog::level::err, __VA_ARGS__)
-}  // namespace minco_local_planner::basis
 
 #endif /* __LOGGER_H__ */

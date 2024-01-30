@@ -3,7 +3,7 @@
     "protobuf",
     "cppzmq",
     "eigen3",
-    "rapidcsv"
+    "spdlog"
   ],
   "overrides": [
     {
@@ -19,8 +19,8 @@
       "version":"3.4.0#3"
     },
     {
-      "name":"rapidcsv",
-      "version":"8.64"
+      "name":"spdlog",
+      "version":"1.12.0"
     }
   ],
   "builtin-baseline": "cb1e4728779e35c4bb60c25114a59c93b3e9be9a"

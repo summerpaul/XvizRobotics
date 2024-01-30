@@ -25,17 +25,23 @@ include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 find_package(protobuf CONFIG REQUIRED)
 find_package(cppzmq CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
-include_directories(${EIGEN3_INCLUDE_DIRS})
 
-include_directories(app)
+
+
 
 include_directories(xvizMsgBridge/include)
 if(APPLE)
     link_directories(xvizMsgBridge/lib/arm64-osx)
+    include_directories(${CMAKE_BINARY_DIR}/vcpkg_installed/arm64-osx/include)
+    
 elseif(WIN32)
     link_directories(xvizMsgBridge/lib/x64-windows)
+    include_directories(${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/include)
 endif()
+
+include_directories(app)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

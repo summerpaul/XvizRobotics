@@ -90,7 +90,9 @@
         "iomanip": "cpp",
         "stack": "cpp",
         "unordered_set": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "geometry": "cpp",
+        "core": "cpp"
     },
     "workbench.colorTheme": "Default Dark+",
     "cmake.configureOnOpen": true,

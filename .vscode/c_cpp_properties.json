@@ -1,12 +1,13 @@
 {
     "configurations": [
         {
-            
+            "name": "XvizRobotics",
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/app",
                 "${workspaceFolder}/xvizMsgBridge/include",
-                "${vcpkgRoot}/x64-windows/include"
+                "${vcpkgRoot}/x64-windows/include",
+                "${workspaceFolder}/build/vcpkg_installed/x64-windows/include"
             ],
             "defines": [
                 "_DEBUG",

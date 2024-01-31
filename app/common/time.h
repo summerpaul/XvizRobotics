@@ -2,12 +2,12 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-30 21:36:19
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-30 21:42:19
+ * @Last Modified time: 2024-01-31 19:52:05
  */
 #include <stdint.h>
 
-#ifndef __TIME_H__
-#define __TIME_H__
+#ifndef __X_ROBOTICS_TIME_H__
+#define __X_ROBOTICS_TIME_H__
 #include <thread>
 #include <chrono>
 namespace common

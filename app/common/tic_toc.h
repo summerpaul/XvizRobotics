@@ -2,13 +2,13 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-29 22:10:51
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-30 21:48:08
+ * @Last Modified time: 2024-01-31 19:54:38
  */
 #include <cmath>
 #include <stdint.h>
 
-#ifndef __TIC_TOC_H__
-#define __TIC_TOC_H__
+#ifndef __X_ROBOTICS_TIC_TOC_H__
+#define __X_ROBOTICS_TIC_TOC_H__
 #include <chrono>
 namespace common
 {

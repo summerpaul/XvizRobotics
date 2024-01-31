@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-20 20:51:42
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-30 21:31:30
+ * @Last Modified time: 2024-01-31 14:19:17
  */
 #include "auto_parking/geometry_parking_utils.h"
 #include "auto_parking/reverse_verticle_parking.h"
@@ -44,6 +44,7 @@ public:
     m_vehicle.header.frameId = BASE_LINK;
 
     Logger::GetInstance()->Init("AutoParkingDemo", "AutoParkingDemo");
+    LOG_INFO("AutoPark Init Success");
 
     GenBoundaries();
     GenVehicleBox();

@@ -2,12 +2,12 @@
  * @Author: Yunkai Xia
  * @Date:   2023-08-24 13:12:53
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-30 21:31:45
+ * @Last Modified time: 2024-01-31 19:51:49
  */
-#include <stdint.h>
 
-#ifndef __LOGGER_H__
-#define __LOGGER_H__
+
+#ifndef __X_ROBOTICS_LOGGER_H__
+#define __X_ROBOTICS_LOGGER_H__
 #include <spdlog/async.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>

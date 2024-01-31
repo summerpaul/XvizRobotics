@@ -92,7 +92,9 @@
         "unordered_set": "cpp",
         "variant": "cpp",
         "geometry": "cpp",
-        "core": "cpp"
+        "core": "cpp",
+        "span": "cpp",
+        "polynomials": "cpp"
     },
     "workbench.colorTheme": "Default Dark+",
     "cmake.configureOnOpen": true,

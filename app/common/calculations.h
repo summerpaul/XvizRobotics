@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-31 20:04:49
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-31 21:39:55
+ * @Last Modified time: 2024-02-03 21:15:23
  */
 
 #ifndef __X_ROBOTICS_CALCULATIONS_H__
@@ -10,9 +10,9 @@
 #include "data_types.h"
 namespace common
 {
-    constexpr float DegToRad(float deg) { return kPi * deg / 180.0f; }
+    inline float DegToRad(float deg) { return kPi * deg / 180.0f; }
     // 弧度转角度
-    constexpr float RadToDeg(float rad) { return 180.0f * rad / kPi; }
+    inline float RadToDeg(float rad) { return 180.0f * rad / kPi; }
 
     template <typename T>
     inline int Sign(const T val)
@@ -48,11 +48,12 @@ namespace common
         return rad;
     }
 
-    inline float FastSigmoid(float x) { return x / (1 + fabs(x)); }
+    inline float FastSigmoidf(float x) { return x / (1 + fabs(x)); }
 
-    inline float Norm(float x, float y) { return sqrtf(powf(x, 2) + powf(y, 2)); }
+    inline float Normf(float x, float y) { return sqrtf(powf(x, 2) + powf(y, 2)); }
 
-    inline bool IsZero(float value)
+    template <typename T>
+    inline bool IsZero(T value)
     {
         if (std::fabs(value) <= kEPS)
         {
@@ -63,8 +64,8 @@ namespace common
             return false;
         }
     }
-
-    inline bool IsLarge(float value_1, float value_2)
+    template <typename T>
+    inline bool IsLarge(T value_1, T value_2)
     {
         if (value_1 > value_2 && fabs(value_1 - value_2) > kEPS)
         {
@@ -77,7 +78,8 @@ namespace common
     }
 
     // 判断前一个double是否小于后一个double
-    inline bool IsSmall(float value_1, float value_2)
+    template <typename T>
+    inline bool IsSmall(T value_1, T value_2)
     {
         if (value_1 < value_2 && fabs(value_1 - value_2) > kEPS)
         {
@@ -90,7 +92,8 @@ namespace common
     }
 
     // 判断前一个double是否等于后一个double
-    inline bool IsEqual(float value_1, float value_2)
+    template <typename T>
+    inline bool IsEqual(T value_1, T value_2)
     {
         if (std::fabs(value_1 - value_2) <= kEPS)
         {
@@ -101,8 +104,8 @@ namespace common
             return false;
         }
     }
-
-    inline float Max(float value_1, float value_2)
+    template <typename T>
+    inline T Max(T value_1, T value_2)
     {
         if (value_1 > value_2)
         {
@@ -113,8 +116,8 @@ namespace common
             return value_2;
         }
     }
-
-    inline float Min(float value_1, float value_2)
+    template <typename T>
+    inline T Min(T value_1, T value_2)
     {
         if (value_1 < value_2)
         {
@@ -125,20 +128,19 @@ namespace common
             return value_2;
         }
     }
-    inline float Clamp(float value, float min, float max)
+
+    template <typename T>
+    T Clamp(const T value, const T min, const T max)
     {
+        if (value > max)
+        {
+            return max;
+        }
         if (value < min)
         {
             return min;
         }
-        else if (value > max)
-        {
-            return max;
-        }
-        else
-        {
-            return value;
-        }
+        return value;
     }
 
 } // namespace common

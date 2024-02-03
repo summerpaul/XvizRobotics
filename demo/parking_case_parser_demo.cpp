@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-28 20:08:41
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-28 21:52:24
+ * @Last Modified time: 2024-02-03 21:41:20
  */
 #include "data_types.h"
 #include "parking_case_parser/parking_case_parser.h"
@@ -15,19 +15,23 @@
 #include <memory>
 #include <string>
 #include <thread>
-
+#include "map/grid_map.h"
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
 
-  if (argc < 2) {
+  if (argc < 2)
+  {
     return 1;
   }
   std::string name = argv[1];
   parking_case_parser::ParkingCase parking_case;
+  std::cout << name << std::endl;
   auto flag = parking_case.Parse(name);
 
-  if (!flag) {
+  if (!flag)
+  {
     std::cout << "Parse Error" << std::endl;
   }
   std::unique_ptr<xviz::XvizMsgBridge> xviz_msg_bridge =
@@ -35,10 +39,14 @@ int main(int argc, char const *argv[]) {
 
   flag = xviz_msg_bridge->Init("tcp://127.0.0.1:8888", "tcp://127.0.0.1:8899");
 
-  if (!flag) {
+  if (!flag)
+  {
     std::cout << "Init Error" << std::endl;
   }
   xviz_msg_bridge->Run();
+
+  float max_x = 0, min_x = 0, max_y = 0, min_y = 0;
+
   xviz::Pose start_pose, tar_pose;
   start_pose.x = parking_case.m_startPose[0];
   start_pose.y = parking_case.m_startPose[1];
@@ -46,28 +54,58 @@ int main(int argc, char const *argv[]) {
   tar_pose.x = parking_case.m_tarPose[0];
   tar_pose.y = parking_case.m_tarPose[1];
   tar_pose.yaw = parking_case.m_tarPose[2];
+
   xviz::Polygon2fArray obsArray;
   const int obs_num = parking_case.m_obs.size();
   obsArray.polygonArray.resize(obs_num);
-  for (int i = 0; i < obs_num; i++) {
+  for (int i = 0; i < obs_num; i++)
+  {
     xviz::Polygon2f ob;
     const int points_num = parking_case.m_obs[i].size();
     ob.points.resize(points_num + 1);
-    for (int j = 0; j < points_num; j++) {
+    for (int j = 0; j < points_num; j++)
+    {
       ob.points[j].x = parking_case.m_obs[i][j][0];
       ob.points[j].y = parking_case.m_obs[i][j][1];
-      if (j == points_num - 1) {
+      if (j == points_num - 1)
+      {
         ob.points[j + 1] = ob.points[0];
       }
     }
     obsArray.polygonArray[i] = ob;
   }
 
-  while (true) {
+  xviz::GridMap grid_map;
+
+  auto map = parking_case.GetMap();
+
+  grid_map.m_isTopView = true;
+  grid_map.m_reserve = true;
+  grid_map.m_res = map->GetResolution();
+  grid_map.m_data = std::string(map->GetData(), map->GetDataSize());
+
+  for(int i = 0; i < map->GetDataSize(); i++)
+  {
+    std::cout <<"data " <<  (int) map->GetData()[i] << std::endl;
+  }
+  std::cout << grid_map.m_data.size() << std::endl;
+  if (map->GetData() == nullptr)
+  {
+    std::cout << "data is null" << std::endl;
+  }
+  grid_map.m_origin.x = map->GetOrigin().translation().x();
+  grid_map.m_origin.y = map->GetOrigin().translation().y();
+  grid_map.m_origin.yaw = map->GetOrigin().rotation().angle();
+  grid_map.m_size.x = map->GetSize().x();
+  grid_map.m_size.y = map->GetSize().y();
+
+  while (true)
+  {
     xviz_msg_bridge->PosePub("start_pose", start_pose);
 
     xviz_msg_bridge->PosePub("tarPose", tar_pose);
     xviz_msg_bridge->PolygonArrayPub("obs", obsArray);
+    xviz_msg_bridge->GridMapPub("map", grid_map);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }

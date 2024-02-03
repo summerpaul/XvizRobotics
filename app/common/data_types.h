@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-28 19:30:04
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-31 20:16:57
+ * @Last Modified time: 2024-02-03 18:56:49
  */
 
 #ifndef __X_ROBOTICS_DATA_TYPES_H__
@@ -45,12 +45,14 @@ namespace common
     using Vec2f = Vecf<2>;
     using Vec3f = Vecf<3>;
     using Vec4f = Vecf<4>;
-    typedef Vecf<Eigen::Dynamic> VecXf;
+    using VecXf = Vecf<Eigen::Dynamic>;
 
     using Vec2i = Veci<2>;
     using Vec3i = Veci<3>;
     using Vec4i = Veci<4>;
-    typedef Veci<Eigen::Dynamic> VecXi;
+    using VecXi = Veci<Eigen::Dynamic>;
+
+    using Rotation2f = Eigen::Rotation2D<float>;
 
     // Workaround with STL container with eigen with fixed size eigen vector
     template <typename T>
@@ -76,7 +78,7 @@ namespace common
 
     const float kInf = 1e20f;
 
-    typedef std::vector<float> Vec_f;
+    using Vec_f = std::vector<float>;
 
 } // namespace common
 

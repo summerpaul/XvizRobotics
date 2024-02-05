@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-27 23:29:04
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-03 21:35:20
+ * @Last Modified time: 2024-02-05 20:14:22
  */
 #ifndef __PARKING_CASE_PARSER_H__
 #define __PARKING_CASE_PARSER_H__
@@ -15,6 +15,7 @@
 #include <vector>
 #include "common/calculations.h"
 #include "map/grid_map.h"
+#include "map/esdf_map.h"
 #include "common/polygon_collide.h"
 namespace parking_case_parser
 {

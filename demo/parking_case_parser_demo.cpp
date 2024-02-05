@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-28 20:08:41
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-03 21:41:20
+ * @Last Modified time: 2024-02-05 18:29:37
  */
 #include "data_types.h"
 #include "parking_case_parser/parking_case_parser.h"
@@ -16,6 +16,7 @@
 #include <string>
 #include <thread>
 #include "map/grid_map.h"
+#include "map/esdf_map.h"
 using namespace std;
 
 int main(int argc, char const *argv[])
@@ -48,12 +49,19 @@ int main(int argc, char const *argv[])
   float max_x = 0, min_x = 0, max_y = 0, min_y = 0;
 
   xviz::Pose start_pose, tar_pose;
-  start_pose.x = parking_case.m_startPose[0];
-  start_pose.y = parking_case.m_startPose[1];
-  start_pose.yaw = parking_case.m_startPose[2];
-  tar_pose.x = parking_case.m_tarPose[0];
-  tar_pose.y = parking_case.m_tarPose[1];
-  tar_pose.yaw = parking_case.m_tarPose[2];
+  start_pose.x = float(parking_case.m_startPose[0]);
+  start_pose.y = float(parking_case.m_startPose[1]);
+  start_pose.yaw = float(parking_case.m_startPose[2]);
+  tar_pose.x = float(parking_case.m_tarPose[0]);
+  tar_pose.y = float(parking_case.m_tarPose[1]);
+  tar_pose.yaw = float(parking_case.m_tarPose[2]);
+  std::cout << start_pose.x << " " << start_pose.y << " " << start_pose.yaw << std::endl;
+  std::cout << tar_pose.x << " " << tar_pose.y << " " << tar_pose.yaw << std::endl;
+
+  xviz::TransformNode base_link;
+  base_link.m_transform = xviz::PoseToTransform(start_pose);
+  base_link.m_frameId = "base_link";
+  base_link.m_parentFrameId = xviz::WORLD_FRAME_ID;
 
   xviz::Polygon2fArray obsArray;
   const int obs_num = parking_case.m_obs.size();
@@ -84,15 +92,6 @@ int main(int argc, char const *argv[])
   grid_map.m_res = map->GetResolution();
   grid_map.m_data = std::string(map->GetData(), map->GetDataSize());
 
-  for(int i = 0; i < map->GetDataSize(); i++)
-  {
-    std::cout <<"data " <<  (int) map->GetData()[i] << std::endl;
-  }
-  std::cout << grid_map.m_data.size() << std::endl;
-  if (map->GetData() == nullptr)
-  {
-    std::cout << "data is null" << std::endl;
-  }
   grid_map.m_origin.x = map->GetOrigin().translation().x();
   grid_map.m_origin.y = map->GetOrigin().translation().y();
   grid_map.m_origin.yaw = map->GetOrigin().rotation().angle();
@@ -102,6 +101,7 @@ int main(int argc, char const *argv[])
   while (true)
   {
     xviz_msg_bridge->PosePub("start_pose", start_pose);
+    xviz_msg_bridge->TransformPub("base_link", base_link);
 
     xviz_msg_bridge->PosePub("tarPose", tar_pose);
     xviz_msg_bridge->PolygonArrayPub("obs", obsArray);

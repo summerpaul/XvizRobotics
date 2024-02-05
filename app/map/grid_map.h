@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-30 09:28:13
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-03 21:39:31
+ * @Last Modified time: 2024-02-05 18:16:40
  */
 #include <stdint.h>
 
@@ -27,7 +27,7 @@ namespace map
 
         bool Init(const Rigid2f &map_origin, const Vec2i &map_size, const char *data, float resolution)
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
+            std::lock_guard<std::mutex> lock(m_DataMutex);
             if (m_initialized)
             {
                 return true;
@@ -92,7 +92,7 @@ namespace map
 
         void SetOccupied(size_t index)
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
+            std::lock_guard<std::mutex> lock(m_DataMutex);
             if (index >= GetWidth() * GetHeight())
             {
                 return;
@@ -130,8 +130,8 @@ namespace map
         {
             Vec2f point = m_origin.inverse() * pt;
             Vec2i pn;
-            pn[0] = std::round((point[0]) / m_resolution - 0.5);
-            pn[1] = std::round((point[1]) / m_resolution - 0.5);
+            pn[0] = std::round((point[0]) * m_resolution_inv - 0.5);
+            pn[1] = std::round((point[1]) * m_resolution_inv - 0.5);
             return pn;
         }
 
@@ -141,7 +141,7 @@ namespace map
         float m_resolution;
         float m_resolution_inv;
         char *m_data;
-        std::mutex m_mutex;
+        std::mutex m_DataMutex;
         bool m_initialized = false;
 
     public:

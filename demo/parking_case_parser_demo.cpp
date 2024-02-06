@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-28 20:08:41
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-05 18:29:37
+ * @Last Modified time: 2024-02-06 18:39:12
  */
 #include "data_types.h"
 #include "parking_case_parser/parking_case_parser.h"
@@ -45,8 +45,6 @@ int main(int argc, char const *argv[])
     std::cout << "Init Error" << std::endl;
   }
   xviz_msg_bridge->Run();
-
-  float max_x = 0, min_x = 0, max_y = 0, min_y = 0;
 
   xviz::Pose start_pose, tar_pose;
   start_pose.x = float(parking_case.m_startPose[0]);

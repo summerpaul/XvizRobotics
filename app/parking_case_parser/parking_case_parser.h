@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-27 23:29:04
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-05 20:14:22
+ * @Last Modified time: 2024-02-06 18:31:47
  */
 #ifndef __PARKING_CASE_PARSER_H__
 #define __PARKING_CASE_PARSER_H__
@@ -15,17 +15,23 @@
 #include <vector>
 #include "common/calculations.h"
 #include "map/grid_map.h"
-#include "map/esdf_map.h"
 #include "common/polygon_collide.h"
+#include <memory>
 namespace parking_case_parser
 {
 
   class ParkingCase
   {
+  public:
+    using Ptr = std::shared_ptr<ParkingCase>;
 
   public:
-    bool Parse(const std::string &path)
+    bool Parse(const std::string &path, const float res = 0.05f)
     {
+      if (res <= 0.0f)
+      {
+        return false;
+      }
 
       std::vector<float> mapData;
       if (!ReadCsv(path, mapData))
@@ -68,16 +74,16 @@ namespace parking_case_parser
         offset += 2 * point_num;
       }
 
-      float map_resolution = 0.05f;
-      int width = int((m_maxX - m_minX) / map_resolution);
-      int height = int((m_maxY - m_minY) / map_resolution);
+      const float res_inv = 1.0f / res;
+      int width = int((m_maxX - m_minX) * res_inv);
+      int height = int((m_maxY - m_minY) * res_inv);
       int data_size = width * height;
       char *data = new char[data_size];
       memset(data, 0, data_size * sizeof(char));
       common::Rigid2f origin(m_minX, m_minY, 0.0f);
       common::Vec2i map_size(width, height);
       m_map = std::make_shared<map::GridMap>();
-      m_map->Init(origin, map_size, data, map_resolution);
+      m_map->Init(origin, map_size, data, res);
       std::cout << " m_map->Init" << std::endl;
       delete[] data;
 

@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-02-06 18:03:02
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-06 18:46:03
+ * @Last Modified time: 2024-02-06 20:54:53
  */
 #include <iostream>
 #include "data_types.h"
@@ -46,6 +46,7 @@ public:
 
         m_bridge->Run();
         m_parkingCase = std::make_shared<parking_case_parser::ParkingCase>();
+        m_esdfMap = std::make_shared<map::ESDFMap>();
 
         return true;
     }
@@ -92,13 +93,21 @@ public:
         m_gridMap.m_isTopView = true;
         m_gridMap.m_reserve = true;
         m_gridMap.m_res = map->GetResolution();
-        m_gridMap.m_data = std::string(map->GetData(), map->GetDataSize());
 
         m_gridMap.m_origin.x = map->GetOrigin().translation().x();
         m_gridMap.m_origin.y = map->GetOrigin().translation().y();
         m_gridMap.m_origin.yaw = map->GetOrigin().rotation().angle();
         m_gridMap.m_size.x = map->GetSize().x();
         m_gridMap.m_size.y = map->GetSize().y();
+        m_xvizEsdfMap = m_gridMap;
+        m_gridMap.m_data = std::string(map->GetData(), map->GetDataSize());
+
+        m_esdfMap->Init(map->GetOrigin(), map->GetSize(), map->GetData(), map->GetResolution());
+        m_esdfMap->GenerateESDF2d();
+        char *esdf_map_data = new char[m_esdfMap->GetDataSize()];
+        m_esdfMap->GetESDFMap(esdf_map_data);
+        m_xvizEsdfMap.m_data = std::string(esdf_map_data, m_esdfMap->GetDataSize());
+        delete[] esdf_map_data;
     }
 
     void Publish()
@@ -109,6 +118,7 @@ public:
         m_bridge->PosePub("tarPose", m_tarPose);
         m_bridge->PolygonArrayPub("obs", m_obsArray);
         m_bridge->GridMapPub("map", m_gridMap);
+        m_bridge->GridMapPub("esdf_map", m_xvizEsdfMap);
         // 发布栅格地图
     }
 
@@ -117,6 +127,9 @@ public:
 
         auto grid_map = m_parkingCase->GetMap();
         common::Vec2f pt(pose.x, pose.y);
+
+        const float dist = m_esdfMap->GetSDFValue(pt);
+        std::cout << "dist: " << dist << std::endl;
 
         if (grid_map->IsOccupied(pt))
         {
@@ -139,11 +152,13 @@ public:
 private:
     parking_case_parser::ParkingCase::Ptr m_parkingCase;
     std::unique_ptr<xviz::XvizMsgBridge> m_bridge;
+    std::shared_ptr<map::ESDFMap> m_esdfMap;
 
     xviz::Pose m_startPose, m_tarPose;
     xviz::TransformNode m_baseLink;
     xviz::Polygon2fArray m_obsArray;
     xviz::GridMap m_gridMap;
+    xviz::GridMap m_xvizEsdfMap;
 };
 
 int main(int argc, char const *argv[])

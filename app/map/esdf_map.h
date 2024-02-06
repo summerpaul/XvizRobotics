@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-02-05 18:12:56
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-05 18:53:32
+ * @Last Modified time: 2024-02-06 20:59:27
  */
 #include <stdint.h>
 
@@ -20,15 +20,16 @@ namespace map
 
         void GetESDFMap(char *data)
         {
-            if (data = nullptr)
+            if (data == nullptr)
             {
                 return;
             }
-            const float min_dist = 0.0;
-            const float max_dist = 5.0;
+            const float min_dist = 0.0f;
+            const float max_dist = 10.0f;
             for (int i = 0; i < m_distBuffer.size(); i++)
             {
-                const float dist = m_distBuffer[i];
+                float dist = m_distBuffer[i];
+                dist = Clamp(dist, min_dist, max_dist);
                 data[i] = (int)(dist - min_dist) / (max_dist - min_dist) * 255;
             }
         }
@@ -232,7 +233,6 @@ namespace map
 
     protected:
         Vec_f m_distBuffer;
-        bool m_initialized = false;
         std::mutex m_distBufferMutex;
     };
 

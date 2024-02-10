@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-02 08:45:08
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-17 23:33:21
+ * @Last Modified time: 2024-01-20 11:23:52
  */
 #include <stdint.h>
 
@@ -19,5 +19,7 @@
 // 角度弧度互转
 #define XVIZ_ANG2RAD(x) ((x) * HATA_PI * 0.0055556f) // 角度转弧度，转完后变成浮点型
 #define XVIZ_RAD2ANG(x) ((x) * HATA_RPI * 180)       // 弧度转角度
+
+
 
 #endif /* __MARCRO_H__ */

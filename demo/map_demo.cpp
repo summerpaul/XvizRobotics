@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-02-06 18:03:02
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-06 20:54:53
+ * @Last Modified time: 2024-02-11 00:06:25
  */
 #include <iostream>
 #include "data_types.h"
@@ -19,7 +19,6 @@
 #include "map/grid_map.h"
 #include "map/esdf_map.h"
 
-using namespace std;
 
 class MapDemo
 {

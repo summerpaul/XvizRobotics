@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2023-12-31 02:28:45
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-20 12:51:55
+ * @Last Modified time: 2024-01-20 12:51:15
  */
 
 #ifndef __DATA_TYPES_H__
@@ -125,7 +125,8 @@ namespace xviz
         CIRCLE = 3,
         BEZIER = 4,
         POSE = 5,
-        POINTCLOUD = 6
+        POINT_CLOUD = 6,
+        NONE_TYPE
     };
 
     struct PointCloud3f
@@ -172,13 +173,13 @@ namespace xviz
     struct Marker
     {
         Header header;
-        MarkerType type;
+        MarkerType type = MarkerType::NONE_TYPE;
         Path2f path;
         Polygon2f polygon;
         Circle circle;
         Bezier bezier;
         Pose pose;
-        PointCloud3f pointcloud;
+        PointCloud3f pointCloud;
         int colorType{};
         float length{};
         float thickness{};
@@ -279,7 +280,7 @@ namespace xviz
 
     const std::string MSG_PATH = "MSG_PATH";
     const std::string MSG_POSE = "MSG_POSE";
-    const std::string MSG_POINTCLOUD = "MSG_POINTCLOUD";
+    const std::string MSG_POINT_CLOUD = "MSG_POINT_CLOUD";
     const std::string MSG_POLYGON = "MSG_POLYGON";
     const std::string MSG_POLYGON_ARRAY = "MSG_POLYGONS";
     const std::string MSG_CIRCLE = "MSG_CIRCLE";

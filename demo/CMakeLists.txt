@@ -26,3 +26,9 @@ target_link_libraries(parking_case_parser_demo
 add_executable(map_demo map_demo.cpp)
 target_link_libraries(map_demo 
                         ${XvizMsgBridgeLib})
+
+
+
+add_executable(shapes_demo shapes_demo.cpp)
+target_link_libraries(shapes_demo 
+                        ${XvizMsgBridgeLib})

@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-01-01 03:13:39
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-19 16:41:08
+ * @Last Modified time: 2024-01-19 16:41:17
  */
 
 #ifndef __XVIZ_MATH_H__
@@ -11,6 +11,7 @@
 #include <math.h>
 #include "data_types.h"
 #include <iostream>
+#include "xviz_marcro.h"
 namespace xviz
 {
     template <typename T>
@@ -43,7 +44,7 @@ namespace xviz
     template <typename T>
     T NormalizeAngleRad(T rad)
     {
-        const T radPi = T(M_PI);
+        const T radPi = T(XVIZ_PI);
         while (rad > radPi)
         {
             rad -= 2. * radPi;
@@ -76,14 +77,14 @@ namespace xviz
     /// a vector.
     inline Vec2f Cross(const Vec2f &a, float s)
     {
-        return Vec2f(s * a.y, -s * a.x);
+        return {s * a.y, -s * a.x};
     }
 
     /// Perform the cross product on a scalar and a vector. In 2D this produces
     /// a vector.
     inline Vec2f Cross(float s, const Vec2f &a)
     {
-        return Vec2f(-s * a.y, s * a.x);
+        return {-s * a.y, s * a.x};
     }
 
     /// Perform the cross product on two vectors.

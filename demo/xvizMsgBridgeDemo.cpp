@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2023-12-29 09:41:07
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-01-20 19:04:21
+ * @Last Modified time: 2024-02-11 00:05:38
  */
 #include <iostream>
 
@@ -334,14 +334,14 @@ public:
         Marker marker;
         marker.header.frameId = frameId;
 
-        marker.type = MarkerType::POINTCLOUD;
+        marker.type = MarkerType::POINT_CLOUD;
         marker.colorType = ColorType::CYAN;
         marker.radius = 0.1f;
-        marker.pointcloud.points.emplace_back(5.0f, 0.0f, 0.0f);
-        marker.pointcloud.points.emplace_back(4.5f, 0.0f, 0.0f);
-        marker.pointcloud.points.emplace_back(5.5f, 0.0f, 0.0f);
-        marker.pointcloud.points.emplace_back(5.0f, 0.5f, 0.0f);
-        marker.pointcloud.points.emplace_back(5.0f, -0.5f, 0.0f);
+        marker.pointCloud.points.emplace_back(5.0f, 0.0f, 0.0f);
+        marker.pointCloud.points.emplace_back(4.5f, 0.0f, 0.0f);
+        marker.pointCloud.points.emplace_back(5.5f, 0.0f, 0.0f);
+        marker.pointCloud.points.emplace_back(5.0f, 0.5f, 0.0f);
+        marker.pointCloud.points.emplace_back(5.0f, -0.5f, 0.0f);
 
         m_bridge->MarkerPub(name, marker);
     }

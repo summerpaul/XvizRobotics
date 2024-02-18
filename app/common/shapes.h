@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-02-10 22:49:06
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-10 23:59:32
+ * @Last Modified time: 2024-02-17 23:38:00
  */
 #include <stdint.h>
 
@@ -52,10 +52,10 @@ namespace common
             vertices[1] = corner2;
             vertices[2] = corner3;
             vertices[3] = corner4;
-            return true;
+            return true; 
         }
 
-        inline static bool GetDenseVerticesOfOrientedBoundingBox(const OrientedBoundingBox2D &obb, Points2f &vertices, float res)
+        inline static bool GetDenseVerticesOfOrientedBoundingBox(const OrientedBoundingBox2D &obb, Points2f &vertices, float res = 0.1f)
         {
             vertices.clear();
             float cos_heading = cosf(obb.m_heading);

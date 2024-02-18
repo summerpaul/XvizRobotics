@@ -2,7 +2,7 @@
  * @Author: Xia Yunkai
  * @Date:   2024-02-10 20:48:50
  * @Last Modified by:   Xia Yunkai
- * @Last Modified time: 2024-02-10 22:47:11
+ * @Last Modified time: 2024-02-17 23:48:09
  */
 #include <stdint.h>
 
@@ -11,6 +11,7 @@
 #include "common/data_types.h"
 #include "map/grid_map.h"
 #include "common/vehicle_param.h"
+#include "node3d.h"
 namespace planner
 {
     using namespace common;
@@ -32,7 +33,10 @@ namespace planner
     private:
         GridMap::Ptr m_gridMap;
         VehicleParam m_param;
-        };
+
+        Vec4f m_startState, m_goalState;
+        Vec2f m_initCtrl;
+    };
 
 } // namespace planner
 
